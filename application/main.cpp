@@ -22,10 +22,29 @@
 
 #include <cstdint>
 #include "BSP_setup.h"
+#include "stm32g4xx.h"
+#include "FreeRTOS.h"
+#include "task.h"
+
+#define vLEDHeartBeat_TASK_PRIORITY				( tskIDLE_PRIORITY + 1UL )
+
+static void vLEDHeartBeat( void * pvParameters ) {
+	for(;;) {
+		vTaskDelay(800);
+		GPIOA->BSRR    |= 0x00000020;
+		vTaskDelay(200);
+		GPIOA->BSRR    |= 0x00200000;
+	}
+}
 
 int main(void)
 {
 	BSP_HWSetup();
+
+	xTaskCreate( vLEDHeartBeat, "BEAT", configMINIMAL_STACK_SIZE, ( void * ) NULL, vLEDHeartBeat_TASK_PRIORITY, ( TaskHandle_t * ) NULL );
+
+	/* Start the scheduler. */
+	vTaskStartScheduler();
 
 	for(;;) {}
 
