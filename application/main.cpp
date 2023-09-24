@@ -28,8 +28,11 @@
 
 #define vLEDHeartBeat_TASK_PRIORITY				( tskIDLE_PRIORITY + 1UL )
 
+std::uint32_t	heartbeatCounter = 0;
+
 static void vLEDHeartBeat( void * pvParameters ) {
 	for(;;) {
+		heartbeatCounter++;
 		vTaskDelay(800);
 		GPIOA->BSRR    |= 0x00000020;
 		vTaskDelay(200);
