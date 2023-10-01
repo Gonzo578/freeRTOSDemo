@@ -37,6 +37,9 @@ add_subdirectory(components)
 # Add path to MCU platform
 add_subdirectory(platform)
 
+# Add path to RTOS abstraction (OSAL)
+add_subdirectory(osal)
+
 # Main project target
 add_executable(Hello_Stm32 "")
 
@@ -58,7 +61,7 @@ target_link_libraries( Hello_Stm32
 		cmsis_device
 		mcal_dio
 		bsp
-		freertos_kernel
+		osal
 )
 
 GET_TARGET_PROPERTY(TARGET_LD_FLAGS ${CMAKE_PROJECT_NAME} LINK_FLAGS)

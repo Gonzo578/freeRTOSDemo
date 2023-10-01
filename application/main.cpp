@@ -23,28 +23,37 @@
 #include <cstdint>
 #include "BSP_setup.h"
 #include "stm32g4xx.h"
-#include "FreeRTOS.h"
-#include "task.h"
+#include "osal_task.h"
 
 #define vLEDHeartBeat_TASK_PRIORITY				( tskIDLE_PRIORITY + 1UL )
 
-std::uint32_t	heartbeatCounter = 0;
+class HeartbeatTask : public RTOSTask {
+	private:
+		std::uint32_t	heartbeatCounter = 0;
+	protected:
+    
+		void run() override {
+        	while (1) {
+            	heartbeatCounter++;
+				vTaskDelay(800);
+				GPIOA->BSRR    |= 0x00000020;
+				vTaskDelay(200);
+				GPIOA->BSRR    |= 0x00200000;
+        	}
+    	}
 
-static void vLEDHeartBeat( void * pvParameters ) {
-	for(;;) {
-		heartbeatCounter++;
-		vTaskDelay(800);
-		GPIOA->BSRR    |= 0x00000020;
-		vTaskDelay(200);
-		GPIOA->BSRR    |= 0x00200000;
-	}
-}
+public:
+    HeartbeatTask() : RTOSTask("BEAT", configMINIMAL_STACK_SIZE, vLEDHeartBeat_TASK_PRIORITY) {}
+};
+
+HeartbeatTask Heatbeat;
 
 int main(void)
 {
 	BSP_HWSetup();
 
-	xTaskCreate( vLEDHeartBeat, "BEAT", configMINIMAL_STACK_SIZE, ( void * ) NULL, vLEDHeartBeat_TASK_PRIORITY, ( TaskHandle_t * ) NULL );
+	// start heartbeat task
+	Heatbeat.start();
 
 	/* Start the scheduler. */
 	vTaskStartScheduler();
