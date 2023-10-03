@@ -21,52 +21,25 @@
 # SOFTWARE.
 ###########################################################################################
 
-ENABLE_LANGUAGE(ASM)
+# Component is compiled into a library
+add_library(heartbeat "")
 
-include(utilities)
-
-# Add path to 3rd party SW libraries
-add_subdirectory(3rdparty)
-
-# Add path to board support package
-add_subdirectory(bsp)
-
-# Add path to component libraries
-add_subdirectory(components)
-
-# Add path to MCU platform
-add_subdirectory(platform)
-
-# Add path to RTOS abstraction (OSAL)
-add_subdirectory(osal)
-
-# Main project target
-add_executable(Hello_Stm32 "")
-
-target_sources( Hello_Stm32
+target_sources(heartbeat
 	PRIVATE
-		main.cpp
-		syscalls.c
-     	STM32G4xx/stm32g4xx_it.c
-     	STM32G4xx/system_stm32g4xx.c
-     	STM32G4xx/startup_stm32g474xx.s
+		src/heartbeat.cpp
 )
 
-target_compile_features(Hello_Stm32 PUBLIC cxx_std_17)
-
-# Target link libraries
-target_link_libraries( Hello_Stm32
+target_link_libraries(heartbeat
 	PRIVATE
-		cmsis_core
-		cmsis_device
-		mcal_dio
-		bsp
 		osal
-		heartbeat
+        cmsis_core
+		cmsis_device
+        mcal_dio
 )
 
-GET_TARGET_PROPERTY(TARGET_LD_FLAGS ${CMAKE_PROJECT_NAME} LINK_FLAGS)
-SET(TARGET_LD_FLAGS "\"-T${CMAKE_CURRENT_SOURCE_DIR}/STM32G4xx/STM32G474RETX_FLASH.ld\"")
-SET_TARGET_PROPERTIES(${CMAKE_PROJECT_NAME} PROPERTIES LINK_FLAGS ${TARGET_LD_FLAGS})
-
-ADD_BIN_TARGETS(${CMAKE_PROJECT_NAME})
+# Component include pathes
+target_include_directories(heartbeat
+	PUBLIC
+		${CMAKE_CURRENT_SOURCE_DIR}/inc
+	PRIVATE
+)
