@@ -28,7 +28,7 @@
 
 #define Heartbeat_TASK_PRIORITY				( tskIDLE_PRIORITY + 1UL )
 
-class HeartbeatTask : public osal::RTOSTask {
+class HeartbeatTask : public osal::Task {
 	private:
 		std::uint32_t	heartbeatCounter = 0;
 	protected:
@@ -44,5 +44,5 @@ class HeartbeatTask : public osal::RTOSTask {
     	}
 
 public:
-    HeartbeatTask() : RTOSTask("BEAT", configMINIMAL_STACK_SIZE, Heartbeat_TASK_PRIORITY) {}
+    HeartbeatTask() : Task("BEAT", configMINIMAL_STACK_SIZE, Heartbeat_TASK_PRIORITY) {}
 };

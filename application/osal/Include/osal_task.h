@@ -5,7 +5,7 @@
 
 namespace osal {
 
-class RTOSTask {
+class Task {
 private:
     TaskHandle_t taskHandle;
     const char* taskName;
@@ -13,7 +13,7 @@ private:
     UBaseType_t priority;
 
     static void taskFunction(void* pvParameters) {
-        RTOSTask* taskInstance = static_cast<RTOSTask*>(pvParameters);
+        Task* taskInstance = static_cast<osal::Task*>(pvParameters);
         taskInstance->run();
         vTaskDelete(NULL);  // Delete the task when done
     }
@@ -22,7 +22,7 @@ protected:
     virtual void run() = 0;
 
 public:
-    RTOSTask(const char* name, uint32_t stackSize, UBaseType_t priority)
+    Task(const char* name, uint32_t stackSize, UBaseType_t priority)
         : taskHandle(NULL), taskName(name), stackSize(stackSize), priority(priority) {}
 
     void start() {
@@ -44,7 +44,7 @@ public:
         vTaskResume(taskHandle);
     }
 
-    ~RTOSTask() {
+    ~Task() {
         stop();
     }
 };
