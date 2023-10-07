@@ -3,6 +3,8 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
+namespace osal {
+
 class RTOSTask {
 private:
     TaskHandle_t taskHandle;
@@ -46,3 +48,5 @@ public:
         stop();
     }
 };
+
+}
