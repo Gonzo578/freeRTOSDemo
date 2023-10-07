@@ -20,29 +20,3 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
-
-#include "osal.h"
-#include "stm32g4xx.h"
-#include <cstdint>
-
-#define Heartbeat_TASK_PRIORITY				( tskIDLE_PRIORITY + 1UL )
-
-class HeartbeatTask : public osal::Task {
-	private:
-		std::uint32_t	heartbeatCounter = 0;
-	protected:
-    
-		void run() override {
-        	while (1) {
-            	heartbeatCounter++;
-				vTaskDelay(800);
-				GPIOA->BSRR    |= 0x00000020;
-				vTaskDelay(200);
-				GPIOA->BSRR    |= 0x00200000;
-        	}
-    	}
-
-public:
-    HeartbeatTask() : Task("BEAT", configMINIMAL_STACK_SIZE, Heartbeat_TASK_PRIORITY) {}
-};

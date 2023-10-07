@@ -22,27 +22,53 @@
 
 #pragma once
 
-#include "osal.h"
-#include "stm32g4xx.h"
-#include <cstdint>
+#include "FreeRTOS.h"
+#include "task.h"
 
-#define Heartbeat_TASK_PRIORITY				( tskIDLE_PRIORITY + 1UL )
+namespace osal {
 
-class HeartbeatTask : public osal::Task {
-	private:
-		std::uint32_t	heartbeatCounter = 0;
-	protected:
-    
-		void run() override {
-        	while (1) {
-            	heartbeatCounter++;
-				vTaskDelay(800);
-				GPIOA->BSRR    |= 0x00000020;
-				vTaskDelay(200);
-				GPIOA->BSRR    |= 0x00200000;
-        	}
-    	}
+class Task {
+private:
+    TaskHandle_t taskHandle;
+    const char* taskName;
+    uint32_t stackSize;
+    UBaseType_t priority;
+
+    static void taskFunction(void* pvParameters) {
+        Task* taskInstance = static_cast<osal::Task*>(pvParameters);
+        taskInstance->run();
+        vTaskDelete(NULL);  // Delete the task when done
+    }
+
+protected:
+    virtual void run() = 0;
 
 public:
-    HeartbeatTask() : Task("BEAT", configMINIMAL_STACK_SIZE, Heartbeat_TASK_PRIORITY) {}
+    Task(const char* name, uint32_t stackSize, UBaseType_t priority)
+        : taskHandle(NULL), taskName(name), stackSize(stackSize), priority(priority) {}
+
+    void start() {
+        xTaskCreate(taskFunction, taskName, stackSize, this, priority, &taskHandle);
+    }
+
+    void stop() {
+        if (taskHandle != NULL) {
+            vTaskDelete(taskHandle);
+            taskHandle = NULL;
+        }
+    }
+
+    void suspend() {
+        vTaskSuspend(taskHandle);
+    }
+
+    void resume() {
+        vTaskResume(taskHandle);
+    }
+
+    ~Task() {
+        stop();
+    }
 };
+
+}
