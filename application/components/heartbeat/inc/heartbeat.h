@@ -23,26 +23,15 @@
 #pragma once
 
 #include "osal.h"
-#include "stm32g4xx.h"
 #include <cstdint>
-
-#define Heartbeat_TASK_PRIORITY				( 1UL )
 
 class HeartbeatTask : public osal::Task {
 	private:
 		std::uint32_t	heartbeatCounter = 0;
 	protected:
     
-		void run() override {
-        	while (1) {
-            	heartbeatCounter++;
-				delay(800);
-				GPIOA->BSRR    |= 0x00000020;
-				delay(200);
-				GPIOA->BSRR    |= 0x00200000;
-        	}
-    	}
+		void run() override;
 
 public:
-    HeartbeatTask() : Task("BEAT", 128, Heartbeat_TASK_PRIORITY) {}
+    HeartbeatTask();
 };

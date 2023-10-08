@@ -21,3 +21,21 @@
 // SOFTWARE.
 
 #include "heartbeat.h"
+#include "osal.h"
+#include "stm32g4xx.h"
+
+#define Heartbeat_TASK_PRIORITY				( 1UL )
+
+void HeartbeatTask::run() {
+  	while (1) {
+       	heartbeatCounter++;
+        delay(800);
+		GPIOA->BSRR    |= 0x00000020;
+		delay(200);
+		GPIOA->BSRR    |= 0x00200000;
+    }
+}
+
+HeartbeatTask::HeartbeatTask():Task("BEAT", 128, Heartbeat_TASK_PRIORITY) {
+
+}
