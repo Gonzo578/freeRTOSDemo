@@ -20,3 +20,49 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include "osal.h"
+#include "FreeRTOS.h"
+#include "task.h"
+
+namespace osal {
+
+    void startOS(void) {
+        vTaskStartScheduler();
+    }
+
+    void Task::taskFunction(void* pvParameters) {
+        Task* taskInstance = static_cast<osal::Task*>(pvParameters);
+        taskInstance->run();
+        vTaskDelete(NULL);  // Delete the task when done
+    }
+
+    Task::Task(const char* name, uint32_t stackSize, UBaseType_t priority)
+        : taskHandle(nullptr), taskName(name), stackSize(stackSize), priority(priority) {}
+
+    void Task::start() {
+        xTaskCreate(taskFunction, taskName, stackSize, this, priority, static_cast<TaskHandle_t*>(taskHandle));
+    }
+
+    void Task::stop() {
+        if (taskHandle != NULL) {
+            vTaskDelete(static_cast<TaskHandle_t>(taskHandle));
+            taskHandle = NULL;
+        }
+    }
+
+    void Task::suspend() {
+        vTaskSuspend(static_cast<TaskHandle_t>(taskHandle));
+    }
+
+    void Task::resume() {
+        vTaskResume(static_cast<TaskHandle_t>(taskHandle));
+    }
+
+    void Task::delay(const uint32_t ticks) {
+        vTaskDelay(ticks);
+    }
+
+    Task::~Task() {
+        stop();
+    }
+}

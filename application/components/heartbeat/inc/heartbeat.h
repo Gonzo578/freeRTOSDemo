@@ -26,7 +26,7 @@
 #include "stm32g4xx.h"
 #include <cstdint>
 
-#define Heartbeat_TASK_PRIORITY				( tskIDLE_PRIORITY + 1UL )
+#define Heartbeat_TASK_PRIORITY				( 1UL )
 
 class HeartbeatTask : public osal::Task {
 	private:
@@ -36,13 +36,13 @@ class HeartbeatTask : public osal::Task {
 		void run() override {
         	while (1) {
             	heartbeatCounter++;
-				vTaskDelay(800);
+				delay(800);
 				GPIOA->BSRR    |= 0x00000020;
-				vTaskDelay(200);
+				delay(200);
 				GPIOA->BSRR    |= 0x00200000;
         	}
     	}
 
 public:
-    HeartbeatTask() : Task("BEAT", configMINIMAL_STACK_SIZE, Heartbeat_TASK_PRIORITY) {}
+    HeartbeatTask() : Task("BEAT", 128, Heartbeat_TASK_PRIORITY) {}
 };

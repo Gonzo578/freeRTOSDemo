@@ -1,12 +1,12 @@
 add_library(osal)
 
 target_link_libraries( osal
-	INTERFACE
+	PRIVATE
 		freertos_kernel
 )
 
 target_include_directories( osal
-	INTERFACE
+	PUBLIC
 		${CMAKE_CURRENT_SOURCE_DIR}/Include
 )
 

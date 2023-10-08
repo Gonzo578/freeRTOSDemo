@@ -22,53 +22,40 @@
 
 #pragma once
 
-#include "FreeRTOS.h"
-#include "task.h"
+#include <cstdint>
 
 namespace osal {
 
+using osalTaskID = void*;
+
+void startOS(void);
+
 class Task {
 private:
-    TaskHandle_t taskHandle;
+    osalTaskID  taskHandle;
     const char* taskName;
-    uint32_t stackSize;
-    UBaseType_t priority;
+    uint32_t    stackSize;
+    uint32_t    priority;
 
-    static void taskFunction(void* pvParameters) {
-        Task* taskInstance = static_cast<osal::Task*>(pvParameters);
-        taskInstance->run();
-        vTaskDelete(NULL);  // Delete the task when done
-    }
+    static void taskFunction(void* pvParameters);
 
 protected:
     virtual void run() = 0;
 
 public:
-    Task(const char* name, uint32_t stackSize, UBaseType_t priority)
-        : taskHandle(NULL), taskName(name), stackSize(stackSize), priority(priority) {}
+    Task(const char* name, uint32_t stackSize, uint32_t priority);
 
-    void start() {
-        xTaskCreate(taskFunction, taskName, stackSize, this, priority, &taskHandle);
-    }
+    void start();
 
-    void stop() {
-        if (taskHandle != NULL) {
-            vTaskDelete(taskHandle);
-            taskHandle = NULL;
-        }
-    }
+    void stop();
 
-    void suspend() {
-        vTaskSuspend(taskHandle);
-    }
+    void suspend();
 
-    void resume() {
-        vTaskResume(taskHandle);
-    }
+    void resume();
 
-    ~Task() {
-        stop();
-    }
+    void delay(const uint32_t ticks);
+
+    ~Task();
 };
 
 }

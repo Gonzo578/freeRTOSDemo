@@ -23,8 +23,7 @@
 #include <cstdint>
 #include "BSP_setup.h"
 #include "stm32g4xx.h"
-#include "FreeRTOS.h"
-#include "task.h"
+#include "osal.h"
 #include "heartbeat.h"
 
 HeartbeatTask Heatbeat;
@@ -37,7 +36,7 @@ int main(void)
 	Heatbeat.start();
 
 	/* Start the scheduler. */
-	vTaskStartScheduler();
+	osal::startOS();
 
 	for(;;) {}
 
