@@ -48,3 +48,5 @@ target_compile_definitions(mcal_dio
 		STM32G474RETx
 		STM32G474xx
 )
+
+target_compile_features(mcal_dio PUBLIC cxx_std_17)

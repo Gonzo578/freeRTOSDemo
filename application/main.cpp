@@ -21,15 +21,27 @@
 // SOFTWARE.
 
 #include <cstdint>
+#include <array>
 #include "BSP_setup.h"
-#include "stm32g4xx.h"
+//#include "stm32g4xx.h"
 #include "osal.h"
 #include "heartbeat.h"
+#include "dio.h"
 
 HeartbeatTask Heatbeat;
 
+
+constexpr std::array<mcal::IOPinConfig_t, 3>	PortA_Pin_Config = {{
+	{0, mcal::IOPinConfig_t::IOFUNCTION::OUTPUT, 0, mcal::IOPinConfig_t::IOTYPE::NORMAL, mcal::IOPinConfig_t::IOSPEED::HIGH, mcal::IOPinConfig_t::IOPULL::NONE, mcal::IOPinConfig_t::IOSTATE::LOGIC_LOW},
+	{1, mcal::IOPinConfig_t::IOFUNCTION::OUTPUT, 0, mcal::IOPinConfig_t::IOTYPE::NORMAL, mcal::IOPinConfig_t::IOSPEED::LOW, mcal::IOPinConfig_t::IOPULL::NONE, mcal::IOPinConfig_t::IOSTATE::LOGIC_HIGH},
+	{2, mcal::IOPinConfig_t::IOFUNCTION::INPUT,  0, mcal::IOPinConfig_t::IOTYPE::NORMAL, mcal::IOPinConfig_t::IOSPEED::LOW, mcal::IOPinConfig_t::IOPULL::NONE, mcal::IOPinConfig_t::IOSTATE::DONT_CARE}
+}};
+
+constexpr auto PortA_Config  = mcal::configure_IOPort (PortA_Pin_Config);
+
 int main(void)
 {
+	mcal::ConfigureIOPort(PortA_Config);
 	BSP_HWSetup();
 
 	// start heartbeat task
