@@ -43,7 +43,7 @@ SET(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 SET(CMAKE_C_FLAGS_INIT "${MCPU_FLAGS} ${VFP_FLAGS} ${SPEC_FLAGS} -Wall -fdata-sections -ffunction-sections -fno-builtin" CACHE INTERNAL "c compiler flags")
 SET(CMAKE_CXX_FLAGS_INIT "${MCPU_FLAGS} ${VFP_FLAGS} ${SPEC_FLAGS} -Wall -fdata-sections -ffunction-sections -fno-builtin -fno-rtti -fno-exceptions" CACHE INTERNAL "cxx compiler flags")
 SET(CMAKE_ASM_FLAGS_INIT "${MCPU_FLAGS} ${VFP_FLAGS} ${SPEC_FLAGS} -x assembler-with-cpp" CACHE INTERNAL "asm compiler flags")
-SET(CMAKE_EXE_LINKER_FLAGS_INIT "${MCPU_FLAGS} ${VFP_FLAGS} ${SPEC_FLAGS} -Wl,--gc-sections" CACHE INTERNAL "executable linker flags")
+SET(CMAKE_EXE_LINKER_FLAGS_INIT "" CACHE INTERNAL "executable linker flags")
 SET(CMAKE_MODULE_LINKER_FLAGS_INIT "${MCPU_FLAGS} ${VFP_FLAGS} ${SPEC_FLAGS}" CACHE INTERNAL "module linker flags")
 SET(CMAKE_SHARED_LINKER_FLAGS_INIT "${MCPU_FLAGS} ${VFP_FLAGS} ${SPEC_FLAGS}" CACHE INTERNAL "shared linker flags")
 

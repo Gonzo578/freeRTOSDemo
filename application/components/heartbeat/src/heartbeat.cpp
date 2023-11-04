@@ -26,6 +26,8 @@
 
 #define Heartbeat_TASK_PRIORITY				( 1UL )
 
+const char* HeatbeatTaskName = "BEAT";
+
 void HeartbeatTask::run() {
   	while (1) {
        	heartbeatCounter++;
@@ -36,6 +38,6 @@ void HeartbeatTask::run() {
     }
 }
 
-HeartbeatTask::HeartbeatTask():Task("BEAT", 128, Heartbeat_TASK_PRIORITY) {
+HeartbeatTask::HeartbeatTask():Task(HeatbeatTaskName, 128, Heartbeat_TASK_PRIORITY) {
 
 }

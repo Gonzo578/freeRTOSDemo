@@ -19,18 +19,20 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-###################################################################################################
+###########################################################################################
 
-###################################################################################################
-# This is the master toolchain file for cortex-m4 cross compilation
-###################################################################################################
+# Component is compiled into a library
+add_library(mcal_dioport "")
 
-# Define basic system
-SET(CMAKE_SYSTEM_NAME Generic)
-SET(CMAKE_SYSTEM_PROCESSOR cortex-m4)
+target_sources(mcal_dioport
+	PRIVATE
+		src/dioport.cpp
+)
 
-set(MCPU_FLAGS "-mthumb -mcpu=cortex-m4")				# Basic core related flags
-set(VFP_FLAGS "-mfpu=fpv4-sp-d16 -mfloat-abi=hard")		# Floating point configuration
-set(SPEC_FLAGS "--specs=nano.specs --specs=nosys.specs")										# e.g. "--specs=nosys.specs" or "--specs=newlib.nano"
+# Component include pathes
+target_include_directories(mcal_dioport
+	PUBLIC
+		${CMAKE_CURRENT_SOURCE_DIR}/inc
+)
 
-include(${CMAKE_CURRENT_LIST_DIR}/gcc-arm-none-eabi.cmake)
+target_compile_features(mcal_dioport PUBLIC cxx_std_17)

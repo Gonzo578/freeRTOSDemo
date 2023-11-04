@@ -33,7 +33,7 @@ namespace osal {
     void Task::taskFunction(void* pvParameters) {
         Task* taskInstance = static_cast<osal::Task*>(pvParameters);
         taskInstance->run();
-        vTaskDelete(NULL);  // Delete the task when done
+        // vTaskDelete(NULL);  // Delete the task when done
     }
 
     Task::Task(const char* name, uint32_t stackSize, UBaseType_t priority)
@@ -45,17 +45,17 @@ namespace osal {
 
     void Task::stop() {
         if (taskHandle != NULL) {
-            vTaskDelete(static_cast<TaskHandle_t>(taskHandle));
+            // vTaskDelete(static_cast<TaskHandle_t>(taskHandle));
             taskHandle = NULL;
         }
     }
 
     void Task::suspend() {
-        vTaskSuspend(static_cast<TaskHandle_t>(taskHandle));
+        // vTaskSuspend(static_cast<TaskHandle_t>(taskHandle));
     }
 
     void Task::resume() {
-        vTaskResume(static_cast<TaskHandle_t>(taskHandle));
+        // vTaskResume(static_cast<TaskHandle_t>(taskHandle));
     }
 
     void Task::delay(const uint32_t ticks) {

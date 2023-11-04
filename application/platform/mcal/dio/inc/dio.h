@@ -22,7 +22,6 @@
 #pragma once
 
 #include <cstdint>
-#include <array>
 
 namespace mcal {
 
@@ -49,41 +48,6 @@ static GPIO_Port_t& GPIOD = *reinterpret_cast<GPIO_Port_t*>(0x48000C00);
 static GPIO_Port_t& GPIOE = *reinterpret_cast<GPIO_Port_t*>(0x48001000);
 static GPIO_Port_t& GPIOF = *reinterpret_cast<GPIO_Port_t*>(0x48001400);
 static GPIO_Port_t& GPIOG = *reinterpret_cast<GPIO_Port_t*>(0x48001800);
-
-using IOPortConfig_t = struct IOPortConfig {
-    uint32_t    Mode_Reg;
-    uint32_t    OutputType_Reg;
-    uint32_t    OutputSpeed_Reg;
-    uint32_t    PullUpDown_Reg;
-    uint32_t    InitialOutput_Reg;
-    uint32_t    AltFunctionL_Reg;
-    uint32_t    AltFunctionH_Reg;
-};
-
-using IOPinConfig_t = struct  IOPinConfig {
-    uint32_t    PinNumber;
-    enum IOFUNCTION:uint32_t    { INPUT = 0, OUTPUT = 1, ALT = 2, ANALOG = 3 } Function;
-    uint32_t AltFunc;
-    enum IOTYPE:uint32_t        { NORMAL = 0, OPENDRAIN = 1 } Type;
-    enum IOSPEED:uint32_t       { LOW = 0, MEDIUM = 1, HIGH = 2, VERYHIGH = 3 } Speed;
-    enum IOPULL:uint32_t        { NONE = 0, PULLUP = 1, PULLDOWN = 2 } Bias;
-    enum IOSTATE:uint32_t       { LOGIC_LOW, LOGIC_HIGH, DONT_CARE } InitialState;
-};
-
-template <size_t N>
-constexpr IOPortConfig_t configure_IOPort (const std::array<IOPinConfig,N> pinConfigArray) {
-    IOPortConfig_t portCfg = {0};
-
-    for (const auto& pinConfig : pinConfigArray) {
-        portCfg.Mode_Reg += pinConfig.Function << (pinConfig.PinNumber * 2);
-    }
-
-    return portCfg;
-}
-
-void ConfigureIOPort (const IOPortConfig_t port_cfg) {
-    static IOPortConfig_t  port = port_cfg;
-}
 
 class IDioPin {
 public:
