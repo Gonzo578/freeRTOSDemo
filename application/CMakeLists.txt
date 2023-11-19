@@ -34,6 +34,9 @@ add_subdirectory(bsp)
 # Add path to component libraries
 add_subdirectory(components)
 
+# Add path to simple helpers and utilities libraries
+add_subdirectory(utilities)
+
 # Add path to MCU platform
 add_subdirectory(platform)
 
