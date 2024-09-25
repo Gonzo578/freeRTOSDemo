@@ -51,7 +51,8 @@ constexpr IOPortConfig_t configure_IOPort (const std::array<IOPinConfig,N> pinCo
     IOPortConfig_t portCfg = {0};
 
     for (const auto& pinConfig : pinConfigArray) {
-        portCfg.Mode_Reg += pinConfig.Function << (pinConfig.PinNumber * 2);
+        portCfg.Mode_Reg        += pinConfig.Function   << (pinConfig.PinNumber * 2);
+        portCfg.OutputSpeed_Reg += pinConfig.Speed      << (pinConfig.PinNumber * 2);
     }
 
     return portCfg;

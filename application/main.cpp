@@ -31,7 +31,7 @@
 constexpr std::array<mcal::IOPinConfig_t, 3>	PortA_Pin_Config = {{
 	{0, mcal::IOPinConfig_t::IOFUNCTION::OUTPUT, 0, mcal::IOPinConfig_t::IOTYPE::NORMAL, mcal::IOPinConfig_t::IOSPEED::HIGH, mcal::IOPinConfig_t::IOPULL::NONE, mcal::IOPinConfig_t::IOSTATE::LOGIC_LOW},
 	{1, mcal::IOPinConfig_t::IOFUNCTION::OUTPUT, 0, mcal::IOPinConfig_t::IOTYPE::NORMAL, mcal::IOPinConfig_t::IOSPEED::LOW, mcal::IOPinConfig_t::IOPULL::NONE, mcal::IOPinConfig_t::IOSTATE::LOGIC_HIGH},
-	{2, mcal::IOPinConfig_t::IOFUNCTION::INPUT,  0, mcal::IOPinConfig_t::IOTYPE::NORMAL, mcal::IOPinConfig_t::IOSPEED::LOW, mcal::IOPinConfig_t::IOPULL::NONE, mcal::IOPinConfig_t::IOSTATE::DONT_CARE}
+	{2, mcal::IOPinConfig_t::IOFUNCTION::INPUT,  0, mcal::IOPinConfig_t::IOTYPE::NORMAL, mcal::IOPinConfig_t::IOSPEED::HIGH, mcal::IOPinConfig_t::IOPULL::NONE, mcal::IOPinConfig_t::IOSTATE::DONT_CARE}
 }};
 
 constexpr auto PortA_Config  = mcal::configure_IOPort (PortA_Pin_Config);
