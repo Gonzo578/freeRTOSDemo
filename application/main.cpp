@@ -26,6 +26,7 @@
 #include "stm32g4xx.h"
 #include "osal.h"
 #include "heartbeat.h"
+#include "HighActiveOutput.h"
 #include "dioport.h"
 
 constexpr std::array<mcal::IOPinConfig_t, 3>	PortA_Pin_Config = {{
@@ -36,7 +37,8 @@ constexpr std::array<mcal::IOPinConfig_t, 3>	PortA_Pin_Config = {{
 
 constexpr auto PortA_Config  = mcal::configure_IOPort (PortA_Pin_Config);
 
-HeartbeatTask Heartbeat;
+HighActiveOutput Led1;
+HeartbeatTask Heartbeat(Led1);
 
 int main(void)
 {

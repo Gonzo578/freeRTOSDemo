@@ -22,25 +22,24 @@
 ###########################################################################################
 
 # Component is compiled into a library
-add_library(heartbeat "")
+add_library(hwdrv_dig_output "")
 
-target_sources(heartbeat
+target_sources(hwdrv_dig_output
 	PRIVATE
-		src/heartbeat.cpp
-)
-
-target_link_libraries(heartbeat
-	PRIVATE
-		osal
-        cmsis_core
-		cmsis_device
-        mcal_dio
-		hwdrv_dig_output
+		src/HighActiveOutput/HighActiveOutput.cpp
 )
 
 # Component include pathes
-target_include_directories(heartbeat
+target_include_directories(hwdrv_dig_output
 	PUBLIC
 		${CMAKE_CURRENT_SOURCE_DIR}/inc
-	PRIVATE
 )
+
+target_link_libraries(hwdrv_dig_output
+    PRIVATE
+        cmsis_core
+        cmsis_device
+        mcal_dio
+)
+
+target_compile_features(hwdrv_dig_output PUBLIC cxx_std_17)

@@ -20,20 +20,3 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
-
-#include "IDigitalOutput.h"
-#include "osal.h"
-#include <cstdint>
-
-class HeartbeatTask : public osal::Task {
-	private:
-		IDigitalOutput& led_m;
-		std::uint32_t	heartbeatCounter = 0;
-	protected:
-    
-		void run() override;
-
-public:
-    HeartbeatTask(IDigitalOutput& led) : Task("HEARTBEAT", 128, 1), led_m(led) {}
-};

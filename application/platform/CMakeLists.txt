@@ -21,7 +21,11 @@
 # SOFTWARE.
 ###########################################################################################
 
+# Add MCU abstraction
 add_subdirectory(mcal/dio)
 add_subdirectory(mcal/dioport)
 # add_subdirectory(mcal/i2c)
 # add_subdirectory(mcal/uart)
+
+# Add HW drivers
+add_subdirectory(hwdrv/dig_output)

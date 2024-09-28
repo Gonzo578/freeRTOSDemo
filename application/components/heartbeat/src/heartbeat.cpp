@@ -32,12 +32,8 @@ void HeartbeatTask::run() {
   	while (1) {
        	heartbeatCounter++;
         delay(800);
-		GPIOA->BSRR    |= 0x00000020;
+		led_m.turnOn();
 		delay(200);
-		GPIOA->BSRR    |= 0x00200000;
+		led_m.turnOff();
     }
-}
-
-HeartbeatTask::HeartbeatTask():Task(HeatbeatTaskName, 128, Heartbeat_TASK_PRIORITY) {
-
 }

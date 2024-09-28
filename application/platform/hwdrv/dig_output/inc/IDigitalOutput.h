@@ -22,18 +22,18 @@
 
 #pragma once
 
-#include "IDigitalOutput.h"
-#include "osal.h"
 #include <cstdint>
 
-class HeartbeatTask : public osal::Task {
-	private:
-		IDigitalOutput& led_m;
-		std::uint32_t	heartbeatCounter = 0;
-	protected:
-    
-		void run() override;
-
+class IDigitalOutput {
 public:
-    HeartbeatTask(IDigitalOutput& led) : Task("HEARTBEAT", 128, 1), led_m(led) {}
+    enum class State_t : std::uint8_t {
+        OFF = 0,
+        ON = 1
+    };
+
+    virtual ~IDigitalOutput() = default;
+
+    virtual void turnOn() = 0;
+    virtual void turnOff() = 0;
+    virtual void Toggle() = 0;
 };

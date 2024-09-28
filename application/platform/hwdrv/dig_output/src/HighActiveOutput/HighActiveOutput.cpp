@@ -20,20 +20,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "HighActiveOutput.h"
+#include "stm32g4xx.h"
 
-#include "IDigitalOutput.h"
-#include "osal.h"
-#include <cstdint>
+HighActiveOutput::HighActiveOutput() : state_m(State_t::OFF) {}
 
-class HeartbeatTask : public osal::Task {
-	private:
-		IDigitalOutput& led_m;
-		std::uint32_t	heartbeatCounter = 0;
-	protected:
-    
-		void run() override;
+void HighActiveOutput::turnOn() {
+    GPIOA->BSRR    |= 0x00000020;
+    state_m = IDigitalOutput::State_t::ON;
+}
 
-public:
-    HeartbeatTask(IDigitalOutput& led) : Task("HEARTBEAT", 128, 1), led_m(led) {}
-};
+void HighActiveOutput::turnOff() {
+    GPIOA->BSRR    |= 0x00200000;
+    state_m = IDigitalOutput::State_t::OFF;
+}
+
+void HighActiveOutput::Toggle() {
+    state_m = (state_m == IDigitalOutput::State_t::ON) ? IDigitalOutput::State_t::OFF : IDigitalOutput::State_t::ON;
+}
