@@ -23,26 +23,24 @@
 #include <cstdint>
 #include <array>
 #include "BSP_setup.h"
-#include "stm32g4xx.h"
 #include "osal.h"
 #include "heartbeat.h"
 #include "HighActiveOutput.h"
 #include "dioport.h"
 
-constexpr std::array<mcal::IOPinConfig_t, 3>	PortA_Pin_Config = {{
-	{0, mcal::IOPinConfig_t::IOFUNCTION::OUTPUT, 0, mcal::IOPinConfig_t::IOTYPE::NORMAL, mcal::IOPinConfig_t::IOSPEED::HIGH, mcal::IOPinConfig_t::IOPULL::NONE, mcal::IOPinConfig_t::IOSTATE::LOGIC_LOW},
-	{1, mcal::IOPinConfig_t::IOFUNCTION::OUTPUT, 0, mcal::IOPinConfig_t::IOTYPE::NORMAL, mcal::IOPinConfig_t::IOSPEED::LOW, mcal::IOPinConfig_t::IOPULL::NONE, mcal::IOPinConfig_t::IOSTATE::LOGIC_HIGH},
-	{2, mcal::IOPinConfig_t::IOFUNCTION::INPUT,  0, mcal::IOPinConfig_t::IOTYPE::NORMAL, mcal::IOPinConfig_t::IOSPEED::HIGH, mcal::IOPinConfig_t::IOPULL::NONE, mcal::IOPinConfig_t::IOSTATE::DONT_CARE}
+const mcal::GPIOPortConfig_t<3> GPIOAPortConfig = {{
+    {1, mcal::IOPinConfig_t::OUTPUT, 	mcal::IOPinConfig_t::AF0, mcal::IOPinConfig_t::NORMAL, 		mcal::IOPinConfig_t::HIGH, 		mcal::IOPinConfig_t::PULLUP, 	mcal::IOPinConfig_t::LOGIC_HIGH},
+    {2, mcal::IOPinConfig_t::INPUT,  	mcal::IOPinConfig_t::AF1, mcal::IOPinConfig_t::OPENDRAIN, 	mcal::IOPinConfig_t::MEDIUM, 	mcal::IOPinConfig_t::PULLDOWN, 	mcal::IOPinConfig_t::LOGIC_LOW},
+    {3, mcal::IOPinConfig_t::ALT, 		mcal::IOPinConfig_t::AF2, mcal::IOPinConfig_t::NORMAL, 		mcal::IOPinConfig_t::VERYHIGH, 	mcal::IOPinConfig_t::NONE, 		mcal::IOPinConfig_t::DONT_CARE}
 }};
 
-constexpr auto PortA_Config  = mcal::configure_IOPort (PortA_Pin_Config);
+constexpr auto GPIOA_RegisterConfig = mcal::generateGPIOPortConfig(GPIOAPortConfig);
 
 HighActiveOutput Led1;
 HeartbeatTask Heartbeat(Led1);
 
 int main(void)
 {
-	mcal::ConfigureIOPort(PortA_Config);
 	BSP_HWSetup();
 
 	Heartbeat.start();

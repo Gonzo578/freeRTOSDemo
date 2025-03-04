@@ -22,44 +22,82 @@
 
 #pragma once
 
-#include <cstdint>
 #include <array>
+#include <cstdint>
+#include "stm32g4xx.h" // STM32 Header für Registerdefinitionen
 
 namespace mcal {
-using IOPortConfig_t = struct IOPortConfig {
-    uint32_t    Mode_Reg;
-    uint32_t    OutputType_Reg;
-    uint32_t    OutputSpeed_Reg;
-    uint32_t    PullUpDown_Reg;
-    uint32_t    InitialOutput_Reg;
-    uint32_t    AltFunctionL_Reg;
-    uint32_t    AltFunctionH_Reg;
+
+using IOPinConfig_t = struct IOPinConfig {
+    uint32_t PinNumber;
+    enum IOFUNCTION : uint32_t { INPUT = 0, OUTPUT = 1, ALT = 2, ANALOG = 3 } Function;
+    enum ALTFUNCTION : uint32_t { AF0 = 0, AF1, AF2, AF3, AF4, AF5, AF6, AF7, AF8, AF9, AF10, AF11, AF12, AF13, AF14, AF15 } AltFunc;
+    enum IOTYPE : uint32_t { NORMAL = 0, OPENDRAIN = 1 } Type;
+    enum IOSPEED : uint32_t { LOW = 0, MEDIUM = 1, HIGH = 2, VERYHIGH = 3 } Speed;
+    enum IOPULL : uint32_t { NONE = 0, PULLUP = 1, PULLDOWN = 2 } Bias;
+    enum IOSTATE : uint32_t { LOGIC_LOW, LOGIC_HIGH, DONT_CARE } InitialState;
 };
 
-using IOPinConfig_t = struct  IOPinConfig {
-    uint32_t    PinNumber;
-    enum IOFUNCTION:uint32_t    { INPUT = 0, OUTPUT = 1, ALT = 2, ANALOG = 3 } Function;
-    uint32_t AltFunc;
-    enum IOTYPE:uint32_t        { NORMAL = 0, OPENDRAIN = 1 } Type;
-    enum IOSPEED:uint32_t       { LOW = 0, MEDIUM = 1, HIGH = 2, VERYHIGH = 3 } Speed;
-    enum IOPULL:uint32_t        { NONE = 0, PULLUP = 1, PULLDOWN = 2 } Bias;
-    enum IOSTATE:uint32_t       { LOGIC_LOW, LOGIC_HIGH, DONT_CARE } InitialState;
+template <size_t NumPins>
+using GPIOPortConfig_t = std::array<IOPinConfig_t, NumPins>;
+
+using GPIOPortRegisterConfig_t = struct GPIOPortRegisterConfig {
+    uint32_t mode = 0;
+    uint32_t type = 0;
+    uint32_t speed = 0;
+    uint32_t pull = 0;
+    uint32_t alt[2] = {0, 0}; // Alternate function registers (AFRL, AFRH)
+    uint32_t odr = 0; // Output data register
 };
 
-template <std::size_t N>
-constexpr IOPortConfig_t configure_IOPort (const std::array<IOPinConfig,N> pinConfigArray) {
-    IOPortConfig_t portCfg = {0};
+constexpr uint32_t getModeRegisterValue(const IOPinConfig_t& config) {
+    return (config.Function << (config.PinNumber * 2));
+}
 
-    for (const auto& pinConfig : pinConfigArray) {
-        portCfg.Mode_Reg        += pinConfig.Function   << (pinConfig.PinNumber * 2);
-        portCfg.OutputSpeed_Reg += pinConfig.Speed      << (pinConfig.PinNumber * 2);
+constexpr uint32_t getTypeRegisterValue(const IOPinConfig_t& config) {
+    return (config.Type == IOPinConfig_t::OPENDRAIN) ? (1U << config.PinNumber) : 0U;
+}
+
+constexpr uint32_t getSpeedRegisterValue(const IOPinConfig_t& config) {
+    return (config.Speed << (config.PinNumber * 2));
+}
+
+constexpr uint32_t getPullRegisterValue(const IOPinConfig_t& config) {
+    return (config.Bias << (config.PinNumber * 2));
+}
+
+constexpr uint32_t getAltFuncRegisterValue(const IOPinConfig_t& config) {
+    return (config.AltFunc << ((config.PinNumber % 8) * 4));
+}
+
+constexpr uint32_t getOutputDataRegisterValue(const IOPinConfig_t& config) {
+    return (config.InitialState == IOPinConfig_t::LOGIC_HIGH) ? (1U << config.PinNumber) : 0U;
+}
+
+template <size_t NumPins>
+constexpr GPIOPortRegisterConfig_t generateGPIOPortConfig(const GPIOPortConfig_t<NumPins>& portConfig) {
+    GPIOPortRegisterConfig_t portRegisterConfig{0};
+
+    for (const auto& pin : portConfig) {
+        portRegisterConfig.mode     |= getModeRegisterValue(pin);
+        portRegisterConfig.type     |= getTypeRegisterValue(pin);
+        portRegisterConfig.speed    |= getSpeedRegisterValue(pin);
+        portRegisterConfig.pull     |= getPullRegisterValue(pin);
+
+        if (pin.Function == IOPinConfig_t::ALT) {
+            if (pin.PinNumber < 8) {
+                portRegisterConfig.alt[0] |= getAltFuncRegisterValue(pin);
+            } else {
+                portRegisterConfig.alt[1] |= getAltFuncRegisterValue(pin);
+            }
+        }
+
+        if (pin.Function == IOPinConfig_t::OUTPUT) {
+            portRegisterConfig.odr |= getOutputDataRegisterValue(pin);
+        }
     }
 
-    return portCfg;
+    return portRegisterConfig;
 }
 
-void ConfigureIOPort (const IOPortConfig_t port_cfg) {
-    IOPortConfig_t  port = port_cfg;
-}
-
-}//mcal
+} // namespace mcal

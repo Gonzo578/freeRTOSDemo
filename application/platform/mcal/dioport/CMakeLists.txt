@@ -29,10 +29,27 @@ target_sources(mcal_dioport
 		src/dioport.cpp
 )
 
+target_compile_features(mcal_dioport PUBLIC cxx_std_20)
+
 # Component include pathes
 target_include_directories(mcal_dioport
 	PUBLIC
 		${CMAKE_CURRENT_SOURCE_DIR}/inc
+)
+
+target_compile_definitions(mcal_dioport
+	PRIVATE
+		STM32				# MCU type
+		STM32G4				
+		STM32G474RETx
+		STM32G474xx
+)
+
+# Target link libraries
+target_link_libraries( mcal_dioport
+	PRIVATE
+		cmsis_core
+		cmsis_device
 )
 
 target_compile_features(mcal_dioport PUBLIC cxx_std_17)
