@@ -5,7 +5,8 @@
 #include "dioport.h"
 #include "dioport.h"
 
-const mcal::GPIOPortConfig_t<16> GPIOAPortConfig = {{
+constexpr mcal::GPIOPortConfig_t<16> GPIOAPortConfig = {{
+//  Pin# Function                       Type                            Speed                           Pull                            InitialState                        AltFunc
     {0,  mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
     {1,  mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
     {2,  mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
