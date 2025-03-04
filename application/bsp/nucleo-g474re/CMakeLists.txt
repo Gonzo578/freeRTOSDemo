@@ -3,7 +3,7 @@ add_library(bsp "")
 
 target_sources(bsp
 	PRIVATE
-		src/BSP_setup.c
+		src/BSP_setup.cpp
 )
 
 target_compile_definitions(bsp
@@ -18,7 +18,7 @@ target_link_libraries(bsp
     PRIVATE
 		cmsis_core
         cmsis_device
-		mcal_dio
+		mcal_dioport
 )
 
 # Component include pathes

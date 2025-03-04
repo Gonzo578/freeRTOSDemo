@@ -30,12 +30,12 @@ namespace mcal {
 
 using IOPinConfig_t = struct IOPinConfig {
     uint32_t PinNumber;
-    enum IOFUNCTION : uint32_t { INPUT = 0, OUTPUT = 1, ALT = 2, ANALOG = 3 } Function;
-    enum ALTFUNCTION : uint32_t { AF0 = 0, AF1, AF2, AF3, AF4, AF5, AF6, AF7, AF8, AF9, AF10, AF11, AF12, AF13, AF14, AF15 } AltFunc;
-    enum IOTYPE : uint32_t { NORMAL = 0, OPENDRAIN = 1 } Type;
-    enum IOSPEED : uint32_t { LOW = 0, MEDIUM = 1, HIGH = 2, VERYHIGH = 3 } Speed;
-    enum IOPULL : uint32_t { NONE = 0, PULLUP = 1, PULLDOWN = 2 } Bias;
-    enum IOSTATE : uint32_t { LOGIC_LOW, LOGIC_HIGH, DONT_CARE } InitialState;
+    enum IOFUNCTION     : uint32_t { INPUT = 0, OUTPUT = 1, ALT = 2, ANALOG = 3 } Function;
+    enum IOTYPE         : uint32_t { PUSHPULL = 0, OPENDRAIN = 1 } Type;
+    enum IOSPEED        : uint32_t { LOW = 0, MEDIUM = 1, HIGH = 2, VERYHIGH = 3 } Speed;
+    enum IOPULL         : uint32_t { NONE = 0, PULLUP = 1, PULLDOWN = 2 } Bias;
+    enum IOSTATE        : uint32_t { LOGIC_LOW, LOGIC_HIGH, DONT_CARE } InitialState;
+    enum ALTFUNCTION    : uint32_t { AF0 = 0, AF1, AF2, AF3, AF4, AF5, AF6, AF7, AF8, AF9, AF10, AF11, AF12, AF13, AF14, AF15 } AltFunc;
 };
 
 template <size_t NumPins>
@@ -98,6 +98,16 @@ constexpr GPIOPortRegisterConfig_t generateGPIOPortConfig(const GPIOPortConfig_t
     }
 
     return portRegisterConfig;
+}
+
+void configureGPIOPort(GPIO_TypeDef* port, const GPIOPortRegisterConfig_t& config) {
+    port->MODER     = config.mode;
+    port->OTYPER    = config.type;
+    port->OSPEEDR   = config.speed;
+    port->PUPDR     = config.pull;
+    port->AFR[0]    = config.alt[0];
+    port->AFR[1]    = config.alt[1];
+    port->ODR       = config.odr;
 }
 
 } // namespace mcal
