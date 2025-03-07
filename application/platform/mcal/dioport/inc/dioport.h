@@ -24,7 +24,7 @@
 
 #include <array>
 #include <cstdint>
-#include "stm32g4xx.h" // STM32 Header für Registerdefinitionen
+#include "stm32g4xx.h" // MCU register definition
 
 namespace mcal {
 
@@ -46,8 +46,8 @@ using GPIOPortRegisterConfig_t = struct GPIOPortRegisterConfig {
     uint32_t type = 0;
     uint32_t speed = 0;
     uint32_t pull = 0;
-    uint32_t alt[2] = {0, 0}; // Alternate function registers (AFRL, AFRH)
-    uint32_t odr = 0; // Output data register
+    uint32_t alt[2] = {0, 0};   // Alternate function registers (AFRL, AFRH)
+    uint32_t bsrr = 0;          // Defautl output configuration (bsrr)
 };
 
 constexpr uint32_t getModeRegisterValue(const IOPinConfig_t& config) {
@@ -71,7 +71,11 @@ constexpr uint32_t getAltFuncRegisterValue(const IOPinConfig_t& config) {
 }
 
 constexpr uint32_t getOutputDataRegisterValue(const IOPinConfig_t& config) {
-    return (config.InitialState == IOPinConfig_t::LOGIC_HIGH) ? (1U << config.PinNumber) : 0U;
+    if (config.InitialState == IOPinConfig_t::DONT_CARE) {
+        return 0U;
+    } else {
+        return (config.InitialState == IOPinConfig_t::LOGIC_HIGH) ? (1U << config.PinNumber) : 0U;
+    }
 }
 
 template <size_t NumPins>
@@ -93,7 +97,7 @@ constexpr GPIOPortRegisterConfig_t generateGPIOPortConfig(const GPIOPortConfig_t
         }
 
         if (pin.Function == IOPinConfig_t::OUTPUT) {
-            portRegisterConfig.odr |= getOutputDataRegisterValue(pin);
+            portRegisterConfig.bsrr |= getOutputDataRegisterValue(pin);
         }
     }
 
@@ -107,7 +111,7 @@ void configureGPIOPort(GPIO_TypeDef* port, const GPIOPortRegisterConfig_t& confi
     port->PUPDR     = config.pull;
     port->AFR[0]    = config.alt[0];
     port->AFR[1]    = config.alt[1];
-    port->ODR       = config.odr;
+    port->BSRR      = config.bsrr;      // Set default output state, if configured as output and not don't care
 }
 
 } // namespace mcal
