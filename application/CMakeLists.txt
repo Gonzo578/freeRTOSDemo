@@ -70,7 +70,7 @@ target_link_libraries( Hello_Stm32
 	PRIVATE
 		cmsis_core
 		cmsis_device
-		mcal_dioport
+		mcal_dioport_cfg
 		bsp
 		osal
 		heartbeat

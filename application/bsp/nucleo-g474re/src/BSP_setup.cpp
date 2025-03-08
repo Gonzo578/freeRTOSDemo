@@ -1,9 +1,6 @@
 #include "BSP_setup.h"
 #include "stm32g4xx.h"
-#include "dioport.h"
-
-#include "dioport.h"
-#include "dioport.h"
+#include "dioport_cfg.h"
 
 // GPIOA Configuration
 constexpr mcal::GPIOPortConfig_t<16> GPIOAPortConfig = {{

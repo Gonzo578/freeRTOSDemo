@@ -22,22 +22,22 @@
 ###########################################################################################
 
 # Component is compiled into a library
-add_library(mcal_dioport "")
+add_library(mcal_dioport_cfg "")
 
-target_sources(mcal_dioport
+target_sources(mcal_dioport_cfg
 	PRIVATE
-		src/dioport.cpp
+		src/dioport_cfg.cpp
 )
 
-target_compile_features(mcal_dioport PUBLIC cxx_std_20)
+target_compile_features(mcal_dioport_cfg PUBLIC cxx_std_20)
 
 # Component include pathes
-target_include_directories(mcal_dioport
+target_include_directories(mcal_dioport_cfg
 	PUBLIC
 		${CMAKE_CURRENT_SOURCE_DIR}/inc
 )
 
-target_compile_definitions(mcal_dioport
+target_compile_definitions(mcal_dioport_cfg
 	PRIVATE
 		STM32				# MCU type
 		STM32G4				
@@ -46,10 +46,8 @@ target_compile_definitions(mcal_dioport
 )
 
 # Target link libraries
-target_link_libraries( mcal_dioport
+target_link_libraries( mcal_dioport_cfg
 	PRIVATE
 		cmsis_core
 		cmsis_device
 )
-
-target_compile_features(mcal_dioport PUBLIC cxx_std_17)
