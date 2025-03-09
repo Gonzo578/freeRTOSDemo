@@ -23,6 +23,7 @@
 #include <cstdint>
 #include "app.h"
 
+// Instanciate the application object
 App theApp{};
 
 int main(void)
