@@ -34,6 +34,6 @@ class HeartbeatTask : public osal::Task {
     
 		void run() override;
 
-public:
-    HeartbeatTask(IDigitalOutput& led) : Task("HEARTBEAT", 128, 1), led_m(led) {}
+	public:
+    	HeartbeatTask(IDigitalOutput& led) : Task("HEARTBEAT", 128, 1), led_m(led) {}
 };
