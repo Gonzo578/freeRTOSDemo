@@ -49,6 +49,7 @@ add_executable(Hello_Stm32 "")
 target_sources( Hello_Stm32
 	PRIVATE
 		main.cpp
+		app.cpp
 		syscalls.c
      	STM32G4xx/stm32g4xx_it.c
      	STM32G4xx/system_stm32g4xx.c

@@ -21,23 +21,13 @@
 // SOFTWARE.
 
 #include <cstdint>
-#include <array>
-#include "BSP_setup.h"
-#include "osal.h"
-#include "heartbeat.h"
-#include "HighActiveOutput.h"
+#include "app.h"
 
-HighActiveOutput Led1;
-HeartbeatTask Heartbeat(Led1);
+App theApp{};
 
 int main(void)
 {
-	BSP_HWSetup();
-
-	Heartbeat.start();
-
-	/* Start the scheduler. */
-	osal::startOS();
+	theApp.run();
 
 	for(;;) {}
 
