@@ -33,7 +33,7 @@ using IOPinConfig_t = struct IOPinConfig {
     enum IOFUNCTION     : uint32_t { INPUT = 0, OUTPUT = 1, ALT = 2, ANALOG = 3 } Function;
     enum IOTYPE         : uint32_t { PUSHPULL = 0, OPENDRAIN = 1 } Type;
     enum IOSPEED        : uint32_t { LOW = 0, MEDIUM = 1, HIGH = 2, VERYHIGH = 3 } Speed;
-    enum IOPULL         : uint32_t { NONE = 0, PULLUP = 1, PULLDOWN = 2 } Bias;
+    enum IOPULL         : uint32_t { NONE = 0, PULLUP = 1, PULLDOWN = 2 } Pull;
     enum IOSTATE        : uint32_t { LOGIC_LOW, LOGIC_HIGH, DONT_CARE } InitialState;
     enum ALTFUNCTION    : uint32_t { AF0 = 0, AF1, AF2, AF3, AF4, AF5, AF6, AF7, AF8, AF9, AF10, AF11, AF12, AF13, AF14, AF15 } AltFunc;
 };
@@ -63,7 +63,7 @@ constexpr uint32_t getSpeedRegisterValue(const IOPinConfig_t& config) {
 }
 
 constexpr uint32_t getPullRegisterValue(const IOPinConfig_t& config) {
-    return (config.Bias << (config.PinNumber * 2));
+    return (config.Pull << (config.PinNumber * 2));
 }
 
 constexpr uint32_t getAltFuncRegisterValue(const IOPinConfig_t& config) {
