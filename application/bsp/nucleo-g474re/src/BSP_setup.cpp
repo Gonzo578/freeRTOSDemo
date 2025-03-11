@@ -50,7 +50,7 @@ constexpr auto GPIOB_RegisterConfig = mcal::generateGPIOPortConfig(GPIOBPortConf
 
 // GPIOC Configuration
 constexpr mcal::GPIOPortConfig_t<16> GPIOCPortConfig = {{
-    //      Pin# Function                       Type                            Speed                           Pull                            InitialState                        AltFunc
+    //      Pin# Function                       Type                            Speed                           Pull                            InitialState                    AltFunc
         {0,  mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
         {1,  mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
         {2,  mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
@@ -73,7 +73,7 @@ constexpr auto GPIOC_RegisterConfig = mcal::generateGPIOPortConfig(GPIOCPortConf
 
 // GPIOD Configuration
 constexpr mcal::GPIOPortConfig_t<16> GPIODPortConfig = {{
-    //      Pin# Function                       Type                            Speed                           Pull                            InitialState                        AltFunc
+    //      Pin# Function                   Type                            Speed                           Pull                            InitialState                        AltFunc
         {0,  mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
         {1,  mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
         {2,  mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
@@ -117,9 +117,20 @@ constexpr mcal::GPIOPortConfig_t<16> GPIOFPortConfig = {{
 
 constexpr auto GPIOF_RegisterConfig = mcal::generateGPIOPortConfig(GPIOFPortConfig);
 
+// *********************************************************************************************************************
+// *** BSP Hardware Setup **********************************************************************************************
+// *********************************************************************************************************************
+mcal::OutputPin UserLEDOutputPin(GPIOA, mcal::Pin_No::Pin_5);
+
+// *********************************************************************************************************************
+// Configure the GPIO Port registers for the Nucleo-G474RE *************************************************************
+// *********************************************************************************************************************
 void BSP_HWSetup(void)  {
 	RCC->AHB2ENR  |= RCC_AHB2ENR_GPIOAEN;
     RCC->AHB2ENR  |= RCC_AHB2ENR_GPIOBEN;
+    RCC->AHB2ENR  |= RCC_AHB2ENR_GPIOCEN;
+    RCC->AHB2ENR  |= RCC_AHB2ENR_GPIODEN;
+    RCC->AHB2ENR  |= RCC_AHB2ENR_GPIOFEN;
     RCC->APB1ENR1 |= RCC_APB1ENR1_I2C1EN;
     
 	configureGPIOPort(GPIOA, GPIOA_RegisterConfig);

@@ -40,6 +40,7 @@ target_link_libraries(hwdrv_dig_output
         cmsis_core
         cmsis_device
         mcal_dio
+        mcal_dioport
 )
 
 target_compile_features(hwdrv_dig_output PUBLIC cxx_std_17)

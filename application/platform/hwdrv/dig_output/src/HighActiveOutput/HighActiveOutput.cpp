@@ -23,15 +23,13 @@
 #include "HighActiveOutput.h"
 #include "stm32g4xx.h"
 
-HighActiveOutput::HighActiveOutput() : state_m(State_t::OFF) {}
-
 void HighActiveOutput::turnOn() {
-    GPIOA->BSRR    |= 0x00000020;
+    outputPin_m.setHigh();
     state_m = IDigitalOutput::State_t::ON;
 }
 
 void HighActiveOutput::turnOff() {
-    GPIOA->BSRR    |= 0x00200000;
+    outputPin_m.setLow();
     state_m = IDigitalOutput::State_t::OFF;
 }
 

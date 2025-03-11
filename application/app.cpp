@@ -29,8 +29,8 @@
 // ****************************************************************************
 // Application objects and tasks
 // ****************************************************************************
-HighActiveOutput Led1;
-HeartbeatTask Heartbeat(Led1);
+HighActiveOutput UserLED(UserLEDOutputPin);
+HeartbeatTask Heartbeat(UserLED);
 
 
 // ****************************************************************************

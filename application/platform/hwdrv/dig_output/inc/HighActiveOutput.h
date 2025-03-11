@@ -23,12 +23,14 @@
 #pragma once
 
 #include "IDigitalOutput.h"
+#include "dioport.h"
 
 class HighActiveOutput final : public IDigitalOutput {
 private:
+    mcal::OutputPin& outputPin_m;
     IDigitalOutput::State_t state_m;
 public:
-    HighActiveOutput();
+    HighActiveOutput(mcal::OutputPin& outputPin) : outputPin_m(outputPin), state_m(IDigitalOutput::State_t::OFF) {}
 
     virtual void turnOn() override;
     virtual void turnOff() override;
