@@ -21,8 +21,24 @@
 # SOFTWARE.
 ###########################################################################################
 
-# Add all components directories here in order to include them to the build
-# Build configurations are included in the components CMakeLists.txt file
+# Component is compiled into a library
+add_library(door "")
 
-add_subdirectory(heartbeat)
-add_subdirectory(door)
+target_sources(door
+	PRIVATE
+		src/door.cpp
+)
+
+target_link_libraries(door
+	PRIVATE
+		osal
+        mcal_dio
+		hwdrv_dig_input
+)
+
+# Component include pathes
+target_include_directories(door
+	PUBLIC
+		${CMAKE_CURRENT_SOURCE_DIR}/inc
+	PRIVATE
+)

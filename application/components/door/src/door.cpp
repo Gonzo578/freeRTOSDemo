@@ -20,39 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "app.h"
-#include "BSP_setup.h"
-#include "osal.h"
-#include "HighActiveOutput.h"
-#include "HighActiveInput.h"
-#include "heartbeat.h"
 #include "door.h"
+#include "osal.h"
 
-// ****************************************************************************
-// Application objects and tasks
-// ****************************************************************************
-HighActiveOutput UserLED(UserLEDOutputPin);
-HeartbeatTask Heartbeat(UserLED);
+#define Door_TASK_PRIORITY				( 1UL )
 
-HighActiveInput UserButton(UserButtonInputPin);
-DoorTask Door(UserButton);
+const char* DoorTaskName = "DOOR";
 
-// ****************************************************************************
-// Application setup
-// ****************************************************************************
-App::App() {
-    BSP_Setup_MCU();
-}
-
-void App::run() {
-    // First start application tasks befor starting the OS
-    Heartbeat.start();
-    Door.start();
-
-    /* Start the scheduler. */
-    osal::startOS();
-}
-
-App::~App() {
-    // Nothing to do
+void DoorTask::run() {
+  	while (1) {
+       	delay(100);
+		DoorState_m = (DoorSensor_m.isActive()) ? State_t::OPEN : State_t::CLOSED;
+    }
 }

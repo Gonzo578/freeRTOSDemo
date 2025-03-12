@@ -20,39 +20,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "app.h"
-#include "BSP_setup.h"
+#pragma once
+
+#include "IDigitalInput.h"
 #include "osal.h"
-#include "HighActiveOutput.h"
-#include "HighActiveInput.h"
-#include "heartbeat.h"
-#include "door.h"
+#include <cstdint>
 
-// ****************************************************************************
-// Application objects and tasks
-// ****************************************************************************
-HighActiveOutput UserLED(UserLEDOutputPin);
-HeartbeatTask Heartbeat(UserLED);
+class DoorTask : public osal::Task {
+    public:
+        enum class State_t : std::uint8_t {
+            UNKNOWN = 0,
+            CLOSED = 1,
+            OPEN = 2
+        };
 
-HighActiveInput UserButton(UserButtonInputPin);
-DoorTask Door(UserButton);
-
-// ****************************************************************************
-// Application setup
-// ****************************************************************************
-App::App() {
-    BSP_Setup_MCU();
-}
-
-void App::run() {
-    // First start application tasks befor starting the OS
-    Heartbeat.start();
-    Door.start();
-
-    /* Start the scheduler. */
-    osal::startOS();
-}
-
-App::~App() {
-    // Nothing to do
-}
+        DoorTask(IDigitalInput& sensor_in) : Task("DOOR", 128, 1), DoorSensor_m(sensor_in) {}
+    
+    private:
+        IDigitalInput&  DoorSensor_m;
+        State_t         DoorState_m = State_t::UNKNOWN;
+		
+	protected:
+    
+		void run() override;
+};

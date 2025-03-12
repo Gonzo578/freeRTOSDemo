@@ -91,12 +91,12 @@ namespace mcal
 
         inline bool isHigh() const
         {
-            return ((port_m->ODR & (1UL << pinNo_m)) != 0);
+            return ((port_m->IDR & (1UL << pinNo_m)) != 0);
         }
 
         inline bool isLow() const
         {
-            return ((port_m->ODR & (1UL << pinNo_m)) == 0);
+            return ((port_m->IDR & (1UL << pinNo_m)) == 0);
         }
 
     private:

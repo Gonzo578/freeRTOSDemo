@@ -75,6 +75,7 @@ target_link_libraries( Hello_Stm32
 		bsp
 		osal
 		heartbeat
+		door
 		hwdrv_dig_output
 		hwdrv_dig_input
 )
