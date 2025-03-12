@@ -64,7 +64,7 @@ constexpr mcal::GPIOPortConfig_t<16> GPIOCPortConfig = {{
         {10, mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
         {11, mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
         {12, mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
-        {13, mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW,       mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
+        {13, mcal::IOPinConfig_t::INPUT, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW,       mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},  // User Button
         {14, mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
         {15, mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0}
     }};
