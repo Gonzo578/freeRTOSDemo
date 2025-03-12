@@ -27,6 +27,7 @@ add_library(hwdrv_dig_output "")
 target_sources(hwdrv_dig_output
 	PRIVATE
 		src/HighActiveOutput/HighActiveOutput.cpp
+        src/LowActiveOutput/LowActiveOutput.cpp
 )
 
 # Component include pathes
