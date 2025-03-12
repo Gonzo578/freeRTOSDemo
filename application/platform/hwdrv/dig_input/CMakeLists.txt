@@ -21,12 +21,26 @@
 # SOFTWARE.
 ###########################################################################################
 
-# Add MCU abstraction
-add_subdirectory(mcal/dio)
-add_subdirectory(mcal/dioport)
-# add_subdirectory(mcal/i2c)
-# add_subdirectory(mcal/uart)
+# Component is compiled into a library
+add_library(hwdrv_dig_input "")
 
-# Add HW drivers
-add_subdirectory(hwdrv/dig_output)
-add_subdirectory(hwdrv/dig_input)
+target_sources(hwdrv_dig_input
+	PRIVATE
+		src/HighActiveInput/HighActiveInput.cpp
+)
+
+# Component include pathes
+target_include_directories(hwdrv_dig_input
+	PUBLIC
+		${CMAKE_CURRENT_SOURCE_DIR}/inc
+)
+
+target_link_libraries(hwdrv_dig_input
+    PRIVATE
+        cmsis_core
+        cmsis_device
+        mcal_dio
+        mcal_dioport
+)
+
+target_compile_features(hwdrv_dig_input PUBLIC cxx_std_17)

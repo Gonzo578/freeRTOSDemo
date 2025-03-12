@@ -83,4 +83,24 @@ namespace mcal
         GPIO_TypeDef* const port_m;
         const Pin_No_t pinNo_m;
     };
+
+    class InputPin final
+    {
+    public:
+        InputPin(GPIO_TypeDef* const port, const Pin_No_t pinNo) : port_m(port),pinNo_m(pinNo) {}
+
+        inline bool isHigh() const
+        {
+            return ((port_m->ODR & (1UL << pinNo_m)) != 0);
+        }
+
+        inline bool isLow() const
+        {
+            return ((port_m->ODR & (1UL << pinNo_m)) == 0);
+        }
+
+    private:
+        GPIO_TypeDef* const port_m;
+        const Pin_No_t pinNo_m;
+    };
 } // namespace mcal

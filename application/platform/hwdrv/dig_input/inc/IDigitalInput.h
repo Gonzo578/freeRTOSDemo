@@ -20,3 +20,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#pragma once
+
+#include <cstdint>
+
+class IDigitalInput {
+public:
+    enum class State_t : std::uint8_t {
+        INACTIVE    = 0,
+        ACTIVE      = 1
+    };
+
+    virtual ~IDigitalInput() = default;
+
+    virtual bool isActive()     = 0;
+    virtual bool isInactive()   = 0;
+
+    virtual State_t getState()  = 0;
+};

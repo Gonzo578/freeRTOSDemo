@@ -121,6 +121,7 @@ constexpr auto GPIOF_RegisterConfig = mcal::generateGPIOPortConfig(GPIOFPortConf
 // *** BSP Hardware Setup **********************************************************************************************
 // *********************************************************************************************************************
 mcal::OutputPin UserLEDOutputPin(GPIOA, mcal::Pin_No::Pin_5);
+mcal::InputPin  UserButtonInputPin(GPIOC, mcal::Pin_No::Pin_13);
 
 // *********************************************************************************************************************
 // Configure the GPIO Port registers for the Nucleo-G474RE *************************************************************

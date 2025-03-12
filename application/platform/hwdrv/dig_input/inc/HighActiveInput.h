@@ -20,36 +20,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "app.h"
-#include "BSP_setup.h"
-#include "osal.h"
-#include "HighActiveOutput.h"
-#include "HighActiveInput.h"
-#include "heartbeat.h"
+#pragma once
 
-// ****************************************************************************
-// Application objects and tasks
-// ****************************************************************************
-HighActiveOutput UserLED(UserLEDOutputPin);
-HeartbeatTask Heartbeat(UserLED);
+#include "IDigitalInput.h"
+#include "dioport.h"
 
-HighActiveInput UserButton(UserButtonInputPin);
+class HighActiveInput final : public IDigitalInput {
+private:
+    mcal::InputPin& inputPin_m;
+public:
+    HighActiveInput(mcal::InputPin& inputPin) : inputPin_m(inputPin) {}
 
-// ****************************************************************************
-// Application setup
-// ****************************************************************************
-App::App() {
-    BSP_Setup_MCU();
-}
+    virtual bool isActive() override;
+    virtual bool isInactive() override;
 
-void App::run() {
-    // First start application tasks befor starting the OS
-    Heartbeat.start();
-
-    /* Start the scheduler. */
-    osal::startOS();
-}
-
-App::~App() {
-    // Nothing to do
-}
+    virtual State_t getState() override;
+};

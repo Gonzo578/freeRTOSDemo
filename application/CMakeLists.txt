@@ -76,6 +76,7 @@ target_link_libraries( Hello_Stm32
 		osal
 		heartbeat
 		hwdrv_dig_output
+		hwdrv_dig_input
 )
 
 target_link_options(Hello_Stm32 PRIVATE "-Wl,-Map,${CMAKE_PROJECT_NAME}.map")

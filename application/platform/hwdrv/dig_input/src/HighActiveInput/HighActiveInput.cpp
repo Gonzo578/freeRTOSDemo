@@ -20,9 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-class IDigitalInputSignal
-{
-public:
-    virtual ~IDigitalInputSignal() {}
-    virtual bool read() = 0;
-};
+#include "HighActiveInput.h"
+
+bool HighActiveInput::isActive() {
+    return inputPin_m.isHigh();
+}
+
+bool HighActiveInput::isInactive() {
+    return inputPin_m.isLow();
+}
+
+IDigitalInput::State_t HighActiveInput::getState() {
+    return (inputPin_m.isHigh()) ? IDigitalInput::State_t::ACTIVE : IDigitalInput::State_t::INACTIVE;
+}
