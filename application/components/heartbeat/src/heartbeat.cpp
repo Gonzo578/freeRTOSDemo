@@ -22,7 +22,6 @@
 
 #include "heartbeat.h"
 #include "osal.h"
-#include "stm32g4xx.h"
 
 #define Heartbeat_TASK_PRIORITY				( 1UL )
 

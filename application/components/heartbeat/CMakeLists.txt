@@ -32,8 +32,6 @@ target_sources(heartbeat
 target_link_libraries(heartbeat
 	PRIVATE
 		osal
-        cmsis_core
-		cmsis_device
         mcal_dio
 		hwdrv_dig_output
 )
