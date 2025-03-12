@@ -125,7 +125,7 @@ mcal::OutputPin UserLEDOutputPin(GPIOA, mcal::Pin_No::Pin_5);
 // *********************************************************************************************************************
 // Configure the GPIO Port registers for the Nucleo-G474RE *************************************************************
 // *********************************************************************************************************************
-void BSP_HWSetup(void)  {
+void BSP_Setup_MCU(void)  {
 	RCC->AHB2ENR  |= RCC_AHB2ENR_GPIOAEN;
     RCC->AHB2ENR  |= RCC_AHB2ENR_GPIOBEN;
     RCC->AHB2ENR  |= RCC_AHB2ENR_GPIOCEN;

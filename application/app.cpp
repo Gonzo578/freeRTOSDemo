@@ -37,7 +37,7 @@ HeartbeatTask Heartbeat(UserLED);
 // Application setup
 // ****************************************************************************
 App::App() {
-    BSP_HWSetup();
+    BSP_Setup_MCU();
 }
 
 void App::run() {

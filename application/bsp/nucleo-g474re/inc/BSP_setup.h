@@ -4,4 +4,4 @@
 
 extern mcal::OutputPin UserLEDOutputPin;
 
-void BSP_HWSetup(void);
+void BSP_Setup_MCU(void);
