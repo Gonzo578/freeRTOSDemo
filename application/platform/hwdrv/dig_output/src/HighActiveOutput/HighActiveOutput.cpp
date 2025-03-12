@@ -21,7 +21,6 @@
 // SOFTWARE.
 
 #include "HighActiveOutput.h"
-#include "stm32g4xx.h"
 
 void HighActiveOutput::turnOn() {
     outputPin_m.setHigh();
