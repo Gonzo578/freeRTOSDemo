@@ -11,7 +11,7 @@ constexpr mcal::GPIOPortConfig_t<16> GPIOAPortConfig = {{
     {3,  mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
     {4,  mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
     {5,  mcal::IOPinConfig_t::OUTPUT, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::LOGIC_HIGH,    mcal::IOPinConfig_t::AF0},  // User LED
-    {6,  mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
+    {6,  mcal::IOPinConfig_t::INPUT, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::PULLUP,    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},  // Joystick Button
     {7,  mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
     {8,  mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
     {9,  mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
@@ -34,7 +34,7 @@ constexpr mcal::GPIOPortConfig_t<16> GPIOBPortConfig = {{
         {3,  mcal::IOPinConfig_t::ALT, 	    mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
         {4,  mcal::IOPinConfig_t::ALT, 	    mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::PULLUP,    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
         {5,  mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
-        {6,  mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
+        {6,  mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE,      mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
         {7,  mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
         {8,  mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
         {9,  mcal::IOPinConfig_t::ANALOG, 	mcal::IOPinConfig_t::PUSHPULL, 	mcal::IOPinConfig_t::LOW, 		mcal::IOPinConfig_t::NONE, 	    mcal::IOPinConfig_t::DONT_CARE,     mcal::IOPinConfig_t::AF0},
@@ -121,6 +121,7 @@ constexpr auto GPIOF_RegisterConfig = mcal::generateGPIOPortConfig(GPIOFPortConf
 // *** BSP Hardware Setup **********************************************************************************************
 // *********************************************************************************************************************
 mcal::OutputPin UserLEDOutputPin(GPIOA, mcal::Pin_No::Pin_5);
+mcal::InputPin  JoystickButtonInputPin(GPIOA, mcal::Pin_No::Pin_6);
 mcal::InputPin  UserButtonInputPin(GPIOC, mcal::Pin_No::Pin_13);
 
 // *********************************************************************************************************************
