@@ -25,7 +25,7 @@
 
 #define Door_TASK_PRIORITY				( 1UL )
 
-const char* DoorTaskName = "DOOR";
+constexpr char* DoorTaskName = "DOOR";
 
 void DoorTask::run() {
   	while (1) {
