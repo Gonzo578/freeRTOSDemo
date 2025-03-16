@@ -34,13 +34,11 @@ class DoorTask : public osal::Task {
             OPEN = 2
         };
 
-        DoorTask(IDigitalInput& sensor1_in, IDigitalInput& sensor2_in) : Task("DOOR", 128, 1), DoorSensor_m(sensor1_in), DoorSensor2_m(sensor2_in) {}
+        DoorTask(IDigitalInput& sensor_in) : Task("DOOR", 128, 1), DoorSensor_m(sensor_in) {}
     
     private:
         IDigitalInput&  DoorSensor_m;
-        IDigitalInput&  DoorSensor2_m;
         State_t         DoorState_m = State_t::UNKNOWN;
-        State_t         DoorState2_m = State_t::UNKNOWN;
 		
 	protected:
     

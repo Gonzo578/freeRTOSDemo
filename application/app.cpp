@@ -35,8 +35,7 @@ HighActiveOutput UserLED(UserLEDOutputPin);
 HeartbeatTask Heartbeat(UserLED);
 
 HighActiveInput UserButton(UserButtonInputPin);
-HighActiveInput JoystickButton(JoystickButtonInputPin);
-DoorTask Door(UserButton, JoystickButton);
+DoorTask Door(UserButton);
 
 // ****************************************************************************
 // Application setup

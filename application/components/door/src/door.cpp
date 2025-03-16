@@ -31,6 +31,5 @@ void DoorTask::run() {
   	while (1) {
        	delay(100);
 		DoorState_m = (DoorSensor_m.isActive()) ? State_t::OPEN : State_t::CLOSED;
-        DoorState2_m = (DoorSensor2_m.isActive()) ? State_t::OPEN : State_t::CLOSED;
     }
 }
