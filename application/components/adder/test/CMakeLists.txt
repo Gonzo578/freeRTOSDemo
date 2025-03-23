@@ -1,6 +1,6 @@
 # MIT License
 
-# Copyright (c) 2023 Ralf Hochhausen
+# Copyright (c) 2025 Ralf Hochhausen
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -21,33 +21,17 @@
 # SOFTWARE.
 ###########################################################################################
 
-# Add all components directories here in order to include them to the build
-# Build configurations are included in the components CMakeLists.txt file
+add_executable(adder_test "")
 
-option(BUILD_TESTS "Build tests" ON)
+target_sources(adder_test
+    PRIVATE
+        adder_test.cpp
+)
 
-if(BUILD_TESTS)
-    cmake_minimum_required(VERSION 3.21)
-
-    project(Component_test)
-    
-    include(CTest)
-
-    enable_testing()
-
-    include(FetchContent)
-    FetchContent_Declare(
+target_link_libraries(adder_test
+    PRIVATE
+        adder
         gunit
-        GIT_REPOSITORY https://github.com/cpp-testing/GUnit.git
-        GIT_TAG        v1.14.0
-    )
-    FETCHCONTENT_MAKEAVAILABLE(gunit)
-endif()
+)
 
-
-###########################################################################################
-# Add all components directories here in order to include them to the build
-###########################################################################################
-#add_subdirectory(heartbeat)
-#add_subdirectory(door)
-add_subdirectory(adder)
+add_test(NAME adder_test COMMAND adder_test)
